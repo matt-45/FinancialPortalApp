@@ -33,7 +33,6 @@ namespace FinancialPortalApp.Data
             }
             return data;
         }
-
         public static async void PostDataServiceAsync(string queryString)
         {
             var client = new HttpClient();
@@ -49,7 +48,6 @@ namespace FinancialPortalApp.Data
                 Console.WriteLine(er);
             }
         }
-
         public static async void PutDataServiceAsync(string queryString)
         {
             var client = new HttpClient();

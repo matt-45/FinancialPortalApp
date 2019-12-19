@@ -29,32 +29,31 @@ namespace FinancialPortalApp
 
         public async Task InitTableView()
         {
-
             User user = await Core.GetUserByEmail(userEmail);
-            List<Transaction> transactions = await Core.GetTransactionsByGroupId(user.GroupId);
+            List<Transaction> transactionsTemp = await Core.GetTransactionsByGroupId(user.GroupId);
+            var transactions = transactionsTemp.OrderByDescending(t => t.Created);
             var layout = new Grid();
 
             layout.Children.Add(new Label()
             {
                 Text = "Type",
                 TextColor = Color.Black,
-                HorizontalOptions = LayoutOptions.StartAndExpand,
-                Margin = new Thickness(20, 0, 0, 0)
+                HorizontalOptions = LayoutOptions.FillAndExpand,
+                Padding = new Thickness(20, 0, 0, 0)
             }, 0, 0);
 
             layout.Children.Add(new Label()
             {
                 Text = "Amount",
                 TextColor = Color.Black,
-                HorizontalOptions = LayoutOptions.Center
+                HorizontalOptions = LayoutOptions.FillAndExpand
             }, 1, 0);
 
             layout.Children.Add(new Label()
             {
                 Text = "Date",
                 TextColor = Color.Black,
-                HorizontalOptions = LayoutOptions.EndAndExpand,
-                Margin = new Thickness(0, 0, 20, 0)
+                HorizontalOptions = LayoutOptions.FillAndExpand
             }, 2, 0);
 
             var tableSection = new TableSection("Transactions")
@@ -71,10 +70,8 @@ namespace FinancialPortalApp
                 {
                     Text = $"{transaction.Type}",
                     HorizontalOptions = LayoutOptions.FillAndExpand,
-                    Margin = new Thickness(20, 0, 0, 0)
+                    Padding = new Thickness(20, 0, 0, 0)
                 }, 0, 0);
-
-                
 
                 cellLayout.Children.Add(new Label()
                 {
@@ -86,9 +83,9 @@ namespace FinancialPortalApp
                 cellLayout.Children.Add(new Label()
                 {
                     Text = transaction.Created.ToString("MM/dd/yy"),
-                    HorizontalOptions = LayoutOptions.FillAndExpand,
-                    Margin = new Thickness(0, 0, 20, 0)
+                    HorizontalOptions = LayoutOptions.FillAndExpand
                 }, 2, 0);
+
                 tableSection.Add(
                     new ViewCell() { View = cellLayout }
                 );

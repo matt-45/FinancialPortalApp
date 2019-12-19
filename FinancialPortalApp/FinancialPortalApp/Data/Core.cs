@@ -151,6 +151,26 @@ namespace FinancialPortalApp.Data
             string queryString = $"https://financialwebapi.azurewebsites.net/EditBudget?Id={BudgetId}&Name={Name}&Spent={Spent}&Target={Target}";
             DataService.PutDataServiceAsync(queryString);
         }
+        public static async Task<dynamic> GetBudgetById(int Id)
+        {
+            string queryString = $"https://financialwebapi.azurewebsites.net/GetBudgetDetails?Id={Id}";
+            dynamic results = await DataService.GetDataFromServiceAsync(queryString).ConfigureAwait(false);
+
+            if (results != null)
+            {
+                Budget budget = new Budget();
+                budget = JsonConvert.DeserializeObject<Budget>(results);
+
+                //OpenWeather openWeather = new OpenWeather();
+                //openWeather = JsonConvert.DeserializeObject<OpenWeather>(results);
+
+                return budget;
+            }
+            else
+            {
+                return null;
+            }
+        }
         public static async Task<dynamic> GetBudgetsByGroupId(int Id)
         {
             string queryString = $"https://financialwebapi.azurewebsites.net/GetBudgetsByGroup?GroupId={Id}";

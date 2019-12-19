@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FinancialPortalApp.Views;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -10,7 +11,7 @@ namespace FinancialPortalApp
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            MainPage = new NavigationPage(new CreateTransaction());
         }
 
         protected override void OnStart()
