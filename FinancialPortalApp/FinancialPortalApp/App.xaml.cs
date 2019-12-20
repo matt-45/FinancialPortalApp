@@ -10,7 +10,7 @@ namespace FinancialPortalApp
         public App()
         {
             InitializeComponent();
-            var mainPage = new MainPage();
+            var mainPage = new SignIn();
             MainPage = new NavigationPage(mainPage);
         }
 

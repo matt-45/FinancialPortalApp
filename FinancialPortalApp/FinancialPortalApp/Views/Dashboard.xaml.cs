@@ -1,49 +1,53 @@
-﻿using Auth0.OidcClient;
-using FinancialPortalApp.Data;
+﻿using FinancialPortalApp.Data;
 using FinancialPortalApp.Models;
-using FinancialPortalApp.Views;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Xamarin.Forms;
 
-namespace FinancialPortalApp
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
+
+namespace FinancialPortalApp.Views
 {
-    // Learn more about making custom code visible in the Xamarin.Forms previewer
-    // by visiting https://aka.ms/xamarinforms-previewer
-    [DesignTimeVisible(false)]
-    public partial class MainPage : ContentPage
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class Dashboard : ContentPage
     {
-        string userId = "7ca42d98-b875-4760-85be-239cc365eed4";
-        string userEmail = "mattpark102@gmail.com";
-        public MainPage()
+        //string userId = "7ca42d98-b875-4760-85be-239cc365eed4";
+        private string UserEmail { get; set; }
+        public Dashboard(string email)
         {
             InitializeComponent();
+            UserEmail = email;
             Title = "Financial Portal";
             InitTableView();
             CreateTransaction.Clicked += CreateTransaction_Clicked;
         }
 
-        protected override void OnAppearing()
+        protected override async void OnAppearing()
         {
             base.OnAppearing();
             //your code here;
-            InitTableView();
+            await InitTableView();
+        }
+
+        private async void TableRow_Clicked(object sender, EventArgs e)
+        {
+            ViewCell vc = (ViewCell)sender;
+            Transaction transaction = (Transaction)vc.BindingContext;
+            await Navigation.PushAsync(new TransactionDetail(transaction));
         }
 
         private async void CreateTransaction_Clicked(object sender, EventArgs e)
         {
-            var createView = new CreateTransaction(userEmail);
+            var createView = new CreateTransaction(UserEmail);
             await Navigation.PushAsync(createView);
         }
 
         private async Task InitTableView()
         {
-            User user = await Core.GetUserByEmail(userEmail);
+            User user = await Core.GetUserByEmail(UserEmail);
             List<Transaction> transactionsTemp = await Core.GetTransactionsByGroupId(user.GroupId);
 
             var transactions = transactionsTemp.OrderByDescending(t => t.Created);
@@ -81,32 +85,36 @@ namespace FinancialPortalApp
                 var cellLayout = new Grid();
                 cellLayout.HorizontalOptions = LayoutOptions.FillAndExpand;
 
-                cellLayout.Children.Add(new Label()
-                {
-                    Text = $"{transaction.Type}",
-                    HorizontalOptions = LayoutOptions.FillAndExpand,
-                    Padding = new Thickness(20, 0, 0, 0)
-                }, 0, 0);
+                var typeLabel = new Label();
+                typeLabel.SetBinding(Label.TextProperty, "Type", BindingMode.TwoWay, null, null);
+                typeLabel.Padding = new Thickness(20, 0, 0, 0);
+                typeLabel.HorizontalOptions = LayoutOptions.FillAndExpand;
 
-                cellLayout.Children.Add(new Label()
-                {
-                    Text = $"{transaction.Amount}",
-                    HorizontalOptions = LayoutOptions.FillAndExpand,
-                    
-                }, 1, 0);
+                var amountLabel = new Label();
+                amountLabel.SetBinding(Label.TextProperty, "Amount", BindingMode.TwoWay, null, null);
+                amountLabel.HorizontalOptions = LayoutOptions.FillAndExpand;
 
-                cellLayout.Children.Add(new Label()
-                {
-                    Text = transaction.Created.ToString("MM/dd/yy"),
-                    HorizontalOptions = LayoutOptions.FillAndExpand
-                }, 2, 0);
+                var createdLabel = new Label();
+                createdLabel.Text = transaction.Created.ToString("MM/dd/yy");
+                createdLabel.HorizontalOptions = LayoutOptions.FillAndExpand;
+
+                cellLayout.Children.Add(typeLabel, 0, 0);
+
+                cellLayout.Children.Add(amountLabel, 1, 0);
+
+                cellLayout.Children.Add(createdLabel, 2, 0);
+
+                var viewCell = new ViewCell() { View = cellLayout };
+                viewCell.BindingContext = transaction;
+                viewCell.Tapped += TableRow_Clicked;
 
                 tableSection.Add(
-                    new ViewCell() { View = cellLayout }
+                    viewCell
                 );
             }
+            
 
-            TansactionsTable.Root = new TableRoot()
+            TransactionsTable.Root = new TableRoot()
             {
                 tableSection
             };

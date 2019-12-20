@@ -4,7 +4,7 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="FinancialPortalApp.MainPage">
+             x:Class="FinancialPortalApp.Views.Dashboard">
     <ContentPage.Resources>
         <ResourceDictionary>
             <Style TargetType="Label" x:Key="MonthlyBalanceHeader">
@@ -30,13 +30,13 @@
     <ContentPage.Content>
         <Grid>
             <StackLayout x:Name="HomeStackLayout">
-                <Label Text="$824.28" Style="{StaticResource MonthlyBalanceHeader}}"></Label>
-                <Label Text="Monthly Target: $1000" Style="{StaticResource SmallHeader}}"></Label>
+                <Label Text="$824.28" Style="{StaticResource MonthlyBalanceHeader}"></Label>
+                <Label Text="Monthly Target: $1000" Style="{StaticResource SmallHeader}"></Label>
                 <ScrollView>
-                    <TableView x:Name="TansactionsTable" Intent="Settings"></TableView>
+                    <TableView x:Name="TransactionsTable" Intent="Settings"></TableView>
                 </ScrollView>
             </StackLayout>
-            
+
             <StackLayout Style="{StaticResource ButtonStackLayout}" BackgroundColor="White">
                 <Grid>
                     <Button Text="All Transactions" HorizontalOptions="Start" WidthRequest="200" HeightRequest="50"></Button>
@@ -50,7 +50,4 @@
             </StackLayout>
         </Grid>
     </ContentPage.Content>
-    
-    
-
 </ContentPage>

@@ -203,6 +203,26 @@ namespace FinancialPortalApp.Data
             string queryString = $"https://financialwebapi.azurewebsites.net/api/BudgetItems/AddBudgetItem?Name={Name}&BudgetId={BudgetId}";
             DataService.PostDataServiceAsync(queryString);
         }
+        public static async Task<dynamic> GetBudgetItemById(int Id)
+        {
+            string queryString = $"https://financialwebapi.azurewebsites.net/api/BudgetItems/GetBudgetItemDetails?Id={Id}";
+            dynamic results = await DataService.GetDataFromServiceAsync(queryString).ConfigureAwait(false);
+
+            if (results != null)
+            {
+                BudgetItem budgetItem = new BudgetItem();
+                budgetItem = JsonConvert.DeserializeObject<BudgetItem>(results);
+
+                //OpenWeather openWeather = new OpenWeather();
+                //openWeather = JsonConvert.DeserializeObject<OpenWeather>(results);
+
+                return budgetItem;
+            }
+            else
+            {
+                return null;
+            }
+        }
         public static void EditBudgetItem(int BudgetItemId, string Name, decimal Spent, decimal Target)
         {
             string queryString = $"https://financialwebapi.azurewebsites.net/api/BudgetItems/EditBudgetItem?Id={BudgetItemId}&Name={Name}&Spent={Spent}&Target={Target}";
@@ -244,6 +264,26 @@ namespace FinancialPortalApp.Data
         {
             string queryString = $"https://financialwebapi.azurewebsites.net/api/BankAccounts/EditBankAccount?Id={BankAccountId}&UserId={UserId}&Name={Name}&Balance={Balance}&Type={Type}";
             DataService.PutDataServiceAsync(queryString);
+        }
+        public static async Task<dynamic> GetBankAccountById(int Id)
+        {
+            string queryString = $"https://financialwebapi.azurewebsites.net/api/BankAccounts/GetBankAccountDetails?Id={Id}";
+            dynamic results = await DataService.GetDataFromServiceAsync(queryString).ConfigureAwait(false);
+
+            if (results != null)
+            {
+                BankAccount bankAccount = new BankAccount();
+                bankAccount = JsonConvert.DeserializeObject<BankAccount>(results);
+
+                //OpenWeather openWeather = new OpenWeather();
+                //openWeather = JsonConvert.DeserializeObject<OpenWeather>(results);
+
+                return bankAccount;
+            }
+            else
+            {
+                return null;
+            }
         }
         public static async Task<dynamic> GetBankAccountsByUserId(string Id)
         {
