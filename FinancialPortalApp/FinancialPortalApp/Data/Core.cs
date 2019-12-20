@@ -34,7 +34,7 @@ namespace FinancialPortalApp.Data
         // Transactions
         public static void CreateTransaction(decimal Amount, string Memo, TransactionType Type, string CreatorId, int GroupId, int BudgetId, int BudgetItemId, int BankAccountId)
         {
-            string queryString = $"https://financialwebapi.azurewebsites.net/api/Transactions/AddTransaction?Amount={Amount}&Memo={Memo}&Type={Type}&CreatorId={CreatorId}&GroupId={GroupId}&BudgetId={BudgetId}&BudgetItemId={BudgetId}&BankAccountId={BankAccountId}";
+            string queryString = $"https://financialwebapi.azurewebsites.net/api/Transactions/AddTransaction?Amount={Amount}&Memo={Memo}&Type={Type}&CreatorId={CreatorId}&GroupId={GroupId}&BudgetId={BudgetId}&BudgetItemId={BudgetItemId}&BankAccountId={BankAccountId}";
             DataService.PostDataServiceAsync(queryString);
         }
         public static void CalculateTransaction(int TransactionId)

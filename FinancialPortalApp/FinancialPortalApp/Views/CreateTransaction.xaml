@@ -53,10 +53,10 @@
             
             <StackLayout Grid.Row="1" Style="{StaticResource ButtonStackLayout}">
                 <Label Text="Amount" Style="{StaticResource Header}"></Label>
-                <Editor Style="{StaticResource AmountEditor}"></Editor>
-                <Label Text="Memo" Style="{StaticResource Header}"></Label>
+                <Editor Style="{StaticResource AmountEditor}" x:Name="TransactionAmount"></Editor>
+                <Label Text="Memo" Style="{StaticResource Header}" x:Name="TransactionMemo"></Label>
                 <Editor Style="{StaticResource MemoEditor}"></Editor>
-                <Button Text="Create Transaction" Style="{StaticResource CreateTransaction}"></Button>
+                <Button Text="Create Transaction" Style="{StaticResource CreateTransaction}" x:Name="CreateNewTransaction"></Button>
             </StackLayout>
             
         </Grid>

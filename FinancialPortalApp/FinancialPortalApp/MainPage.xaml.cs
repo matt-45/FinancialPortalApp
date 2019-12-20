@@ -28,6 +28,13 @@ namespace FinancialPortalApp
             CreateTransaction.Clicked += CreateTransaction_Clicked;
         }
 
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            //your code here;
+            InitTableView();
+        }
+
         private async void CreateTransaction_Clicked(object sender, EventArgs e)
         {
             var createView = new CreateTransaction(userEmail);

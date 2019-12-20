@@ -18,23 +18,38 @@ namespace FinancialPortalApp.Views
         private CreateTransactionViewModel viewModel = new CreateTransactionViewModel();
         public CreateTransaction(string userEmail)
         {
+            
+            InitializeComponent();
             BindingContext = new CreateTransactionViewModel();
             UserEmail = userEmail;
-            InitializeComponent();
             GetInformation();
             BudgetPicker.SelectedIndexChanged += SelectBudget;
+            CreateNewTransaction.Clicked += CreateTransaction_Clicked;
             Title = "Create Transaction";
         }
+
+        public async void CreateTransaction_Clicked(object sender, EventArgs e)
+        {
+            User user = await Core.GetUserByEmail(UserEmail);
+            var budget = (Budget)BudgetPicker.SelectedItem;
+            var budgetItem = (BudgetItem)ItemPicker.SelectedItem;
+            var bankAccount = (BankAccount)BankPicker.SelectedItem;
+            var amount = Convert.ToDecimal(TransactionAmount.Text);
+            var memo = TransactionMemo.Text;
+
+            Core.CreateTransaction(amount, memo, TransactionType.Withdrawal, user.Id, user.GroupId, budget.Id, budgetItem.Id, bankAccount.Id);
+
+            Navigation.PopAsync();
+        }
+
         private async void SelectBudget(object sender, EventArgs e)
         {
-            
             Picker picker = sender as Picker;
             Budget selectedItem = (Budget)picker.SelectedItem;
 
             List<BudgetItem> budgetItems = await Core.GetBudgetItemsByBudgetId(selectedItem.Id);
-            viewModel.BudgetItems = budgetItems;
-
-            this.ApplyBindings();
+            //viewModel.BudgetItems = budgetItems;
+            ItemPicker.ItemsSource = budgetItems;
         }
 
         private async Task GetInformation()
@@ -48,6 +63,8 @@ namespace FinancialPortalApp.Views
 
             this.BindingContext = viewModel;
         }
+
+        
 
 
     }
