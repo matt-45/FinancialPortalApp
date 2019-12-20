@@ -245,7 +245,7 @@ namespace FinancialPortalApp.Data
             string queryString = $"https://financialwebapi.azurewebsites.net/api/BankAccounts/EditBankAccount?Id={BankAccountId}&UserId={UserId}&Name={Name}&Balance={Balance}&Type={Type}";
             DataService.PutDataServiceAsync(queryString);
         }
-        public static async Task<dynamic> GetBankAccountsByUserId(int Id)
+        public static async Task<dynamic> GetBankAccountsByUserId(string Id)
         {
             string queryString = $"https://financialwebapi.azurewebsites.net/api/BankAccounts/GetBankAccountsByUser?UserId={Id}";
             dynamic results = await DataService.GetDataFromServiceAsync(queryString).ConfigureAwait(false);

@@ -1,6 +1,7 @@
 ﻿using Auth0.OidcClient;
 using FinancialPortalApp.Data;
 using FinancialPortalApp.Models;
+using FinancialPortalApp.Views;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
-
 
 namespace FinancialPortalApp
 {
@@ -25,12 +25,20 @@ namespace FinancialPortalApp
             InitializeComponent();
             Title = "Financial Portal";
             InitTableView();
+            CreateTransaction.Clicked += CreateTransaction_Clicked;
         }
 
-        public async Task InitTableView()
+        private async void CreateTransaction_Clicked(object sender, EventArgs e)
+        {
+            var createView = new CreateTransaction(userEmail);
+            await Navigation.PushAsync(createView);
+        }
+
+        private async Task InitTableView()
         {
             User user = await Core.GetUserByEmail(userEmail);
             List<Transaction> transactionsTemp = await Core.GetTransactionsByGroupId(user.GroupId);
+
             var transactions = transactionsTemp.OrderByDescending(t => t.Created);
             var layout = new Grid();
 
@@ -91,7 +99,7 @@ namespace FinancialPortalApp
                 );
             }
 
-            TableViewTest.Root = new TableRoot()
+            TansactionsTable.Root = new TableRoot()
             {
                 tableSection
             };

@@ -18,6 +18,7 @@
             <Style TargetType="Button" x:Key="CreateTransaction">
                 <Setter Property="HeightRequest" Value="60"></Setter>
                 <Setter Property="VerticalOptions" Value="End"></Setter>
+                <Setter Property="Margin" Value="0, 0, 0, 15"></Setter>
             </Style>
             <Style TargetType="StackLayout" x:Key="ButtonStackLayout">
                 <Setter Property="VerticalOptions" Value="End"></Setter>
@@ -32,7 +33,7 @@
                 <Label Text="$824.28" Style="{StaticResource MonthlyBalanceHeader}}"></Label>
                 <Label Text="Monthly Target: $1000" Style="{StaticResource SmallHeader}}"></Label>
                 <ScrollView>
-                    <TableView x:Name="TableViewTest" Intent="Settings"></TableView>
+                    <TableView x:Name="TansactionsTable" Intent="Settings"></TableView>
                 </ScrollView>
             </StackLayout>
             
@@ -45,10 +46,7 @@
                     <Button Text="Budgets" HorizontalOptions="Start" WidthRequest="200" HeightRequest="50"></Button>
                     <Button Text="Bank Accounts" HorizontalOptions="End" WidthRequest="200" HeightRequest="50"></Button>
                 </Grid>
-                    
-
-                
-                <Button Text="Create Transaction" Style="{StaticResource CreateTransaction}"></Button>
+                <Button Text="Create Transaction" Style="{StaticResource CreateTransaction}" x:Name="CreateTransaction"></Button>
             </StackLayout>
         </Grid>
     </ContentPage.Content>

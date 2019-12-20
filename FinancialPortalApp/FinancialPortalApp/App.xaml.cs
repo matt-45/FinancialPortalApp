@@ -10,8 +10,8 @@ namespace FinancialPortalApp
         public App()
         {
             InitializeComponent();
-
-            MainPage = new NavigationPage(new CreateTransaction());
+            var mainPage = new MainPage();
+            MainPage = new NavigationPage(mainPage);
         }
 
         protected override void OnStart()
